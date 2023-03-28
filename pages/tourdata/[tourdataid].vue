@@ -410,72 +410,6 @@
             <td class="px-6 py-4 text-right">
               <a
                 :href="`/paper/disbursement-paper?tid=${tour_id}&cid=${item.no}`"
-                class="font-medium text-yellow-400 dark:text-yellow-400 hover:underline mr-5"
-                >ดูใบประมาณการเบิกเงินสดย่อย</a
-              >
-              <a-popconfirm
-                title="คุณแน่ใจ?"
-                ok-text="ยืนยัน"
-                cancel-text="ยกเลิก"
-                @confirm="onDeleteQuotation(item.id)"
-                @cancel="cancel">
-                <a
-                  href="#"
-                  class="font-medium text-red-600 dark:text-red-500 hover:underline"
-                  >ลบ</a
-                ></a-popconfirm
-              >
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </a-modal>
-
-  <a-modal
-    v-model:visible="list_cash"
-    width="65rem"
-    title="รายการใบเบิกค่าใช้จ่าย">
-    <template #footer>
-      <a-button
-        type="primary"
-        @click="$router.push(`/withdraw/add_estimate?tour_id=${tour_id}`)"
-        >สร้างใบเบิกค่าใช้จ่าย</a-button
-      >
-      <a-button type="danger" @click="list_cash = false">ปิด</a-button>
-    </template>
-
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead
-          class="text-xs uppercase bg-green-800 dark:bg-gray-700"
-          style="color: white">
-          <tr>
-            <th scope="col" class="px-6 py-3">ชื่อผู้เบิก</th>
-            <th scope="col" class="px-6 py-3">วันที่เบิก</th>
-            <th scope="col" class="px-6 py-3">วัตถุประสงค์</th>
-            <th scope="col" class="px-6 py-3">ยอดสุทธิ</th>
-            <th scope="col" class="px-6 py-3 text-right">ฟังก์ชั่น</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-            v-for="(item, index) in estimate_ls"
-            :key="index">
-            <th
-              scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              {{ item.withdrawer_name }}
-            </th>
-            <td class="px-6 py-4">{{ item.date }}</td>
-            <td class="px-6 py-4">{{ item.objective }}</td>
-            <td class="px-6 py-4">
-              {{ formatter.format(item.total_price) }}
-            </td>
-            <td class="px-6 py-4 text-right">
-              <a
-                :href="`/paper/disbursement-paper?tid=${tour_id}&cid=${item.no}`"
                 class="font-medium text-primary-400 dark:text-primary-400 hover:underline mr-5"
                 >ดูใบเบิกเงินสดย่อย</a
               >
@@ -625,7 +559,7 @@
 
   <a-modal
     v-model:visible="create_clear_dialog"
-    width="70rem"
+    width="90rem"
     title="ออกใบเคียร์ประมาณการเงินสดย่อย">
     <template #footer>
       <a-button key="back" @click="create_clear_dialog = false"
@@ -697,46 +631,19 @@
           class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <label
-          for="base-input"
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >ยอดเงินประมาณการ
-        </label>
-        <input
-          type="number"
-          id="base-input"
-          v-model.number="clear.total_predict"
-          class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-      </v-col>
-      <v-col>
-        <label
-          for="base-input"
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >ยอดเงินส่งคืน
-        </label>
-        <input
-          type="number"
-          id="base-input"
-          v-model.number="clear.total_return"
-          class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-      </v-col>
-      <v-col>
-        <label
-          for="base-input"
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >ยอดเงินเบิกเพิ่ม
-        </label>
-        <input
-          type="number"
-          id="base-input"
-          v-model.number="clear.total_give_me"
-          class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-      </v-col>
-    </v-row>
     <a-divider> รายการที่ขอเบิก </a-divider>
     <v-row
+      ><v-col>
+        <label
+          for="base-input"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >วันที่ใบเสร็จ
+        </label>
+        <a-date-picker
+          :locale="locale"
+          v-model:value="clear_date"
+          class="date-picker"
+          format="DD/MM/YYYY" /></v-col
       ><v-col>
         <label
           for="base-input"
@@ -746,19 +653,19 @@
         <input
           type="text"
           id="base-input"
-          v-model="reciept_desc"
+          v-model="clear_desc"
           class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
       </v-col>
       <v-col>
         <label
           for="base-input"
           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >เลขที่และวันที่ใบเสร็จ
+          >เลขที่ใบเสร็จ
         </label>
         <input
           type="text"
           id="base-input"
-          v-model="reciept_date_no"
+          v-model="clear_no"
           class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
       </v-col>
       <v-col>
@@ -770,18 +677,7 @@
         <input
           type="text"
           id="base-input"
-          v-model="reciept_tax_id"
-          class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" /> </v-col
-      ><v-col>
-        <label
-          for="base-input"
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-          >รายการค่าใช้จ่าย
-        </label>
-        <input
-          type="text"
-          id="base-input"
-          v-model="reciept_type"
+          v-model="clear_tax_id"
           class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
       </v-col>
       <v-col>
@@ -793,8 +689,26 @@
         <input
           type="number"
           id="base-input"
-          v-model.number="reciept_amount"
+          v-model.number="clear_total"
           class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+      </v-col>
+      <v-col>
+        <label
+          for="base-input"
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >รายการ</label
+        >
+        <select
+          style="height: 33.6px"
+          v-model="clear_of"
+          class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <option
+            v-for="(item, index) in est_de_ls"
+            :key="index"
+            :value="item.id">
+            {{ item.desc }}
+          </option>
+        </select>
       </v-col>
       <v-col>
         <br />
@@ -810,30 +724,42 @@
           class="text-xs uppercase bg-green-800 dark:bg-gray-700"
           style="color: white">
           <tr>
+            <th scope="col" class="px-6 py-3">วันที่ใบเสร็จ</th>
             <th scope="col" class="px-6 py-3">รายละเอียดค่าใช้จ่าย</th>
-            <th scope="col" class="px-6 py-3">เลขที่และวันที่ใบเสร็จ</th>
+            <th scope="col" class="px-6 py-3">เลขที่ใบเสร็จ</th>
             <th scope="col" class="px-6 py-3">เลขประจำตัวผู้เสียภาษี</th>
-            <th scope="col" class="px-6 py-3">รายการค่าใช้จ่าย</th>
             <th scope="col" class="px-6 py-3 text-right">ยอดสุทธิ</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-for="(item, index) in est_de_ls">
+          <tr
+            class="bg-gray-100 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            :key="index">
+            <th class="px-6 py-4">-</th>
+            <td class="px-6 py-4">{{ item.desc }}</td>
+            <td class="px-6 py-4">-</td>
+            <td class="px-6 py-4">-</td>
+            <td class="px-6 py-4 text-right">
+              {{
+                Number(item.total).toLocaleString({ minimumFractionDigits: 2 })
+              }}
+              .-
+            </td>
+          </tr>
           <tr
             class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-            v-for="(item, index) in clear_reciept_ls"
+            v-for="(item, index) in item.clearance"
             :key="index">
-            <th
-              scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              {{ item.desc }}
-            </th>
-            <td class="px-6 py-4">{{ item.no }}</td>
-            <td class="px-6 py-4">{{ item.tax_id }}</td>
-            <td class="px-6 py-4">
-              {{ item.type }}
-            </td>
+            <th class="px-6 py-4">{{ item.clear_date }}</th>
+            <td class="px-6 py-4">{{ item.clear_desc }}</td>
+            <td class="px-6 py-4">{{ item.clear_no }}</td>
+            <td class="px-6 py-4">{{ item.clear_tax_id }}</td>
             <td class="px-6 py-4 text-right">
-              {{ item.total }}
+              {{
+                Number(item.clear_total).toLocaleString({
+                  minimumFractionDigits: 2,
+                })
+              }}.-
             </td>
           </tr>
         </tbody>
@@ -1157,7 +1083,7 @@
       v-model="tools"
       location="bottom"
       temporary
-      style="height: 20rem">
+      style="height: 23rem">
       <v-list density="compact" nav>
         <v-list-item
           title="ลบทัวร์"
@@ -1177,6 +1103,10 @@
           title="จัดการเส้นทาง"
           @click="direction_dialog = true"
           value="4"></v-list-item>
+        <v-list-item
+          title="คอมเมนต์โรงแรม"
+          @click="hotel_comment_dialog = true"
+          value="8"></v-list-item>
         <v-list-item
           title="จัดการใบเบิกค่าใช้จ่าย"
           @click="list_cash = true"
@@ -1445,8 +1375,15 @@ export default {
       this.clear.date = dayjs().format("DD/MM/BBBB");
       this.clear.no = genRanDec(13);
       this.clear.tour_name = this.tour_data.name;
-      this.clear.desc_ls = this.clear_reciept_ls;
-      this.clear.total = this.clear_reciept_ls.reduce((a, b) => a + b.total, 0);
+      this.clear.desc_ls = this.est_de_ls;
+      this.clear.total_predict = this.est_de_ls.reduce(
+        (a, b) => a + b.total,
+        0
+      );
+      const sum = this.est_de_ls.map((item) => {
+        return item.clearance.reduce((a, b) => a + b.clear_total, 0);
+      });
+      this.clear.total = sum.reduce((partialSum, a) => partialSum + a, 0);
       const json = JSON.stringify(this.clear);
       this.$router.push(`/paper/estimate_clear-paper?data=${json}`);
     },
@@ -1566,13 +1503,21 @@ export default {
         });
     },
     handleAddReciept() {
-      this.clear_reciept_ls.push({
-        desc: this.reciept_desc,
-        tax_id: this.reciept_tax_id,
-        no: this.reciept_date_no,
-        type: this.reciept_type,
-        total: this.reciept_amount,
-      });
+      const payload = {
+        clear_date: dayjs(this.clear_date).format("DD/MM/BBBB"),
+        clear_desc: this.clear_desc,
+        clear_no: this.clear_no,
+        clear_tax_id: this.clear_tax_id,
+        clear_total: this.clear_total,
+      };
+      const objIndex = this.est_de_ls.findIndex(
+        (obj) => obj.id == this.clear_of
+      );
+      this.est_de_ls[objIndex].clearance
+        ? null
+        : (this.est_de_ls[objIndex].clearance = []);
+      this.est_de_ls[objIndex].clearance.push(payload);
+      console.log(this.est_de_ls);
     },
     handleUpdateComments() {
       api
@@ -1678,11 +1623,12 @@ export default {
       direction_comment_dialog: false,
       selected_direction: "",
       clear_reciept_ls: [],
-      reciept_desc: "",
-      reciept_amount: 0,
-      reciept_tax_id: "",
-      reciept_type: "",
-      reciept_date_no: "",
+      clear_date: "",
+      clear_desc: "",
+      clear_no: "",
+      clear_tax_id: "",
+      clear_total: 0,
+      clear_of: "",
       isMobile: false,
       tools: false,
       tour_comment_dialog: false,

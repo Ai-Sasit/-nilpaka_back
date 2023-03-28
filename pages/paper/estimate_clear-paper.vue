@@ -110,7 +110,7 @@
                   <td class="text-center" style="font-size: xx-small">
                     เลขประจำตัวผู้เสียภาษี
                   </td>
-                  <td class="text-center" style="font-size: xx-small">
+                  <td class="text-right" style="font-size: xx-small">
                     ยอดสุทธิ
                   </td>
                 </tr>
@@ -118,22 +118,29 @@
               <tbody style="font-weight: normal; font-size: 14px">
                 <tr
                   style="border-bottom: 1px solid black"
-                  v-for="(item, index) in ob.desc_ls"
-                  :key="index">
+                  :key="index"
+                  v-for="(items, index) in desc_ls">
                   <td class="text-center" style="font-size: xx-small">
                     {{ index + 1 }}
                   </td>
                   <td class="text-center" style="font-size: xx-small">
-                    {{ item.desc }}
+                    {{ items.clear_date }}
                   </td>
                   <td class="text-center" style="font-size: xx-small">
-                    {{ item.no }}
+                    {{ items.clear_desc }}
                   </td>
                   <td class="text-center" style="font-size: xx-small">
-                    {{ item.tax_id }}
+                    {{ items.clear_no }}
                   </td>
                   <td class="text-center" style="font-size: xx-small">
-                    {{ item.total }}
+                    {{ items.clear_tax_id }}
+                  </td>
+                  <td class="text-right" style="font-size: xx-small">
+                    {{
+                      Number(items.clear_total).toLocaleString("th-TH", {
+                        minimumFractionDigits: 2,
+                      })
+                    }}
                   </td>
                 </tr>
               </tbody>
@@ -151,25 +158,67 @@
                 <td align="right" colspan="2" style="font-weight: bold">
                   รวมสุทธิ :
                 </td>
-                <td align="center" colspan="2">{{ ob.total }}</td>
+                <td align="center" colspan="2">
+                  {{
+                    Number(ob.total).toLocaleString("th-TH", {
+                      minimumFractionDigits: 2,
+                    })
+                  }}
+                  .-
+                </td>
               </tr>
               <tr style="height: 30px">
                 <td align="right" colspan="2" style="font-weight: bold">
                   ยอกเงินประมาณการ :
                 </td>
-                <td align="center" colspan="2">{{ ob.total_predict }}</td>
+                <td align="center" colspan="2">
+                  {{
+                    Number(ob.total_predict).toLocaleString("th-TH", {
+                      minimumFractionDigits: 2,
+                    })
+                  }}
+                  .-
+                </td>
               </tr>
               <tr style="height: 30px">
                 <td align="right" colspan="2" style="font-weight: bold">
                   ยอดเงินส่งคืน :
                 </td>
-                <td align="center" colspan="2">{{ ob.total_return }}</td>
+                <td align="center" colspan="2">
+                  {{
+                    ob.total_predict - ob.total < 0
+                      ? (0).toLocaleString("th-TH", {
+                          minimumFractionDigits: 2,
+                        })
+                      : Number(ob.total_predict - ob.total).toLocaleString(
+                          "th-TH",
+                          {
+                            minimumFractionDigits: 2,
+                          }
+                        )
+                  }}
+                  .-
+                </td>
               </tr>
               <tr style="height: 30px">
                 <td align="right" colspan="2" style="font-weight: bold">
                   ยอดเงินเบิกเพิ่ม :
                 </td>
-                <td align="center" colspan="2">{{ ob.total_give_me }}</td>
+                <td align="center" colspan="2">
+                  {{
+                    ob.total - ob.total_predict < 0
+                      ? (0).toLocaleString("th-TH", {
+                          minimumFractionDigits: 2,
+                        })
+                      : Number(ob.total - ob.total_predict).toLocaleString(
+                          "th-TH",
+                          {
+                            minimumFractionDigits: 2,
+                          }
+                        )
+                  }}
+                  .-
+                </td>
               </tr>
             </v-table>
           </v-col>
@@ -295,14 +344,17 @@ export default defineComponent({
   },
   mounted() {
     const obj = JSON.parse(String(this.$route.query.data));
+    console.log(obj);
     this.ob = obj;
-    console.log(this.ob);
+    const temp = obj.desc_ls.map((e: any) => e.clearance);
+    this.desc_ls = [].concat(...temp);
   },
   data() {
     return {
       onLoad: false,
       quo: {} as any,
       ob: {} as any,
+      desc_ls: [] as any,
       last_total: 0,
     };
   },

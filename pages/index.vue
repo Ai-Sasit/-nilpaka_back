@@ -12,8 +12,13 @@
         box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
       "
       ><a-col
-        ><a-input placeholder="ค้นหา" style="width: 80vmin"></a-input></a-col
-      ><a-col><a-button type="primary">สร้างทัวร์</a-button></a-col></a-row
+        ><a-input
+          placeholder="ค้นหา"
+          v-model:value="search"
+          style="width: 80vmin"></a-input></a-col
+      ><a-col
+        ><a-button type="primary" href="/addtour">สร้างทัวร์</a-button></a-col
+      ></a-row
     >
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -88,14 +93,24 @@ export default {
         });
       });
       this.tour_ls = res;
+      this.tour_temp = res;
       this.$message.success({ content: "โหลดข้อมูลสำเร็จ", key });
     });
   },
   data() {
     return {
       tour_ls: [],
+      tour_temp: [],
       member_ls: [],
+      search: "",
     };
+  },
+  watch: {
+    search() {
+      this.tour_ls = this.tour_temp.filter((item) => {
+        return item.name.includes(this.search);
+      });
+    },
   },
   methods: {
     detail_tour(id) {
