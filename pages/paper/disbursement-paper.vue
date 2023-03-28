@@ -1,6 +1,7 @@
 <template>
   <div
-    style="display: flex; background-color: rgb(225, 225, 241); z-index: -111">
+    style="display: flex; background-color: rgb(225, 225, 241); z-index: -111"
+  >
     <div class="page">
       <v-container>
         <v-row style="margin: 2px">
@@ -90,7 +91,8 @@
         </v-row>
 
         <v-row
-          style="padding: 1px; margin: auto; border-bottom: 1px solid black">
+          style="padding: 1px; margin: auto; border-bottom: 1px solid black"
+        >
           <v-col style="padding: 1px; height: 400px">
             <v-table density="compact" height="auto">
               <thead style="font-weight: bold; font-size: 14px">
@@ -142,7 +144,8 @@
             padding-right: 4px;
             margin: auto;
             border-bottom: 1px solid black;
-          ">
+          "
+        >
           <v-col style="padding: 0" cols="9"
             ><v-table>
               <tr>
@@ -290,6 +293,7 @@
     ></v-row
   >
 </template>
+
 <script lang="ts">
 import dayjs from "dayjs";
 import { defineComponent } from "vue";
