@@ -1,134 +1,111 @@
 <template>
-  <section
-    class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
-    style="margin-top: 1rem">
-    <a-row
-      justify="space-between"
-      style="
-        padding: 1rem;
-        background-color: honeydew;
-        border-radius: 1rem;
-        margin-bottom: 1rem;
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-      "
-      ><a-col
-        ><a-input
-          placeholder="ค้นหา"
-          v-model:value="search"
-          style="width: 80vmin"></a-input></a-col
-      ><a-col
-        ><a-button type="primary" href="/addtour">สร้างทัวร์</a-button></a-col
-      ></a-row
-    >
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead
-          class="text-xs text-gray-700 uppercase bg-gray-50 dark:text-gray-400"
-          style="background-color: #0277bd; color: white">
-          <tr>
-            <th scope="col" class="px-6 py-3">ชื่อทริปทัวร์</th>
-            <th scope="col" class="px-6 py-3">ชื่อโปรแกรมทัวร์</th>
-            <th scope="col" class="px-6 py-3">วันที่เริ่มทริป</th>
-            <th scope="col" class="px-6 py-3">วันที่เริ่มทริป</th>
-            <th scope="col" class="px-6 py-3">วัน</th>
-            <th scope="col" class="px-6 py-3">คืน</th>
-            <th scope="col" class="px-6 py-3">เที่ยวบินหรือพาหนะอื่นขาไป</th>
-            <th scope="col" class="px-6 py-3">เที่ยวบินหรือพาหนะอื่นขากลับ</th>
-            <th scope="col" class="px-6 py-3">จำนวนลูกทัวร์</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-if="!tour_ls.length">
-            <td class="px-6 py-4" colspan="12" style="text-align: center">
-              ไม่มีข้อมูล
-            </td>
-          </tr>
-          <tr
-            class="table-row-hover"
-            v-for="(item, index) in tour_ls"
-            :key="index"
-            @click="detail_tour(item.id)">
-            <td class="px-6 py-4">
-              {{ item.name }}
-            </td>
-            <td class="px-6 py-4">
-              {{ item.program_name }}
-            </td>
-            <td class="px-6 py-4">
-              {{ item.date_go }}
-            </td>
-            <td class="px-6 py-4">
-              {{ item.date_back }}
-            </td>
-            <td class="px-6 py-4">
-              {{ item.amount_of_days }}
-            </td>
-            <td class="px-6 py-4">
-              {{ item.amount_of_nights }}
-            </td>
-            <td class="px-6 py-4">
-              {{ item.vehicle_in }}
-            </td>
-            <td class="px-6 py-4">
-              {{ item.vehicle_out }}
-            </td>
-            <td class="px-6 py-4">{{ member_ls[index] }}</td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="flex flex-col items-center justify-center mx-auto lg:py-0">
+    <a
+      href="#"
+      class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white mt-20">
+      <img class="w-43 h-28" src="../assets/imgs/ll-01.png" alt="logo" />
+    </a>
+    <div
+      style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px"
+      class="w-full bg-white rounded-lg dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <h1
+          class="text-xl font-bold leading-tight text-center tracking-tight text-gray-900 md:text-2xl dark:text-white">
+          ระบบหลังบ้านนิลผกา
+        </h1>
+        <div>
+          <label
+            for="email"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >อีเมล์</label
+          >
+          <input
+            type="email"
+            name="email"
+            v-model="email"
+            id="email"
+            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="name@company.com"
+            required />
+        </div>
+        <div>
+          <label
+            for="password"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >รหัสผ่าน</label
+          >
+          <input
+            type="password"
+            name="password"
+            id="password"
+            v-model="password"
+            placeholder="••••••••"
+            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            required />
+        </div>
+        <div class="flex items-center justify-between">
+          <div class="flex items-start">
+            <div class="flex items-center h-5">
+              <input
+                id="remember"
+                aria-describedby="remember"
+                type="checkbox"
+                class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" />
+            </div>
+            <div class="ml-3 text-sm">
+              <label for="remember" class="text-gray-500 dark:text-gray-300"
+                >จดจำฉันไว้</label
+              >
+            </div>
+          </div>
+          <a
+            href="#"
+            class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+            >ลืมรหัสผ่าน?</a
+          >
+        </div>
+        <button
+          @click="login"
+          class="w-full text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+          ลงชื่อเข้าใช้
+        </button>
+      </div>
     </div>
-  </section>
+  </div>
 </template>
+<script lang="ts">
+import { defineComponent } from "vue";
 
-<script>
-import { read_all_data } from "~~/services/pyapi";
-const key = "updatable";
-export default {
-  mounted() {
-    this.$message.loading({ content: "กำลังโหลดข้อมูล รายการทัวร์...", key });
-    read_all_data("tours").then((res) => {
-      res.forEach((element) => {
-        read_all_data(`member_amount?tour_id=${element.id}`).then((res) => {
-          this.member_ls.push(res);
-        });
-      });
-      this.tour_ls = res;
-      this.tour_temp = res;
-      this.$message.success({ content: "โหลดข้อมูลสำเร็จ", key });
+export default defineComponent({
+  setup() {
+    definePageMeta({
+      layout: "login",
     });
   },
   data() {
     return {
-      tour_ls: [],
-      tour_temp: [],
-      member_ls: [],
-      search: "",
+      email: "",
+      password: "",
     };
   },
-  watch: {
-    search() {
-      this.tour_ls = this.tour_temp.filter((item) => {
-        return item.name.includes(this.search);
-      });
-    },
-  },
   methods: {
-    detail_tour(id) {
-      this.$router.push({ path: `/tourdata/${id}` });
+    login() {
+      if (this.email === "admin@admin.com") {
+        if (this.password === "admin123") {
+          this.$router.push("/tour_ls");
+        } else {
+          this.$notification.error({
+            message: "รหัสผ่านไม่ถูกต้อง",
+            description: "กรุณาตรวจสอบรหัสผ่านอีกครั้ง",
+          });
+        }
+      } else {
+        this.$notification.error({
+          message: "อีเมล์ไม่ถูกต้อง",
+          description: "กรุณาตรวจสอบอีเมล์อีกครั้ง",
+        });
+      }
     },
   },
-};
+});
 </script>
-
-<style scoped>
-.table-row-hover {
-  cursor: pointer;
-  background-color: rgb(255, 255, 255);
-  transition: 0.2s;
-}
-
-.table-row-hover:hover {
-  background-color: rgb(236, 236, 236);
-  transition: 0.2s;
-}
-</style>

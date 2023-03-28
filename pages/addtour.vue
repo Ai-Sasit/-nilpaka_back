@@ -315,7 +315,7 @@
       ><v-col cols="2" style="margin-right: -6vmin; margin-top: -2vmin"
         ><v-btn
           color="light-blue-accent-4"
-          @click="$router.push(`/`)"
+          @click="$router.push(`/tour_ls`)"
           :disabled="!lock_form"
           >บันทึกข้อมูล</v-btn
         ></v-col
