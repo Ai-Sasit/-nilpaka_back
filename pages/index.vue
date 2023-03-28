@@ -2,6 +2,19 @@
   <section
     class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5"
     style="margin-top: 1rem">
+    <a-row
+      justify="space-between"
+      style="
+        padding: 1rem;
+        background-color: honeydew;
+        border-radius: 1rem;
+        margin-bottom: 1rem;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+      "
+      ><a-col
+        ><a-input placeholder="ค้นหา" style="width: 80vmin"></a-input></a-col
+      ><a-col><a-button type="primary">สร้างทัวร์</a-button></a-col></a-row
+    >
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead

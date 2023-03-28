@@ -99,16 +99,16 @@
                   ">
                   <td class="text-center" style="font-size: xx-small">ลำดับ</td>
                   <td class="text-center" style="font-size: xx-small">
+                    วันที่ใบเสร็จ
+                  </td>
+                  <td class="text-center" style="font-size: xx-small">
                     รายละเอียดค่าใช้จ่าย
                   </td>
                   <td class="text-center" style="font-size: xx-small">
-                    เลขที่และวันที่ใบเสร็จ
+                    เลขที่ใบเสร็จ
                   </td>
                   <td class="text-center" style="font-size: xx-small">
                     เลขประจำตัวผู้เสียภาษี
-                  </td>
-                  <td class="text-center" style="font-size: xx-small">
-                    รายการค่าใช้จ่าย
                   </td>
                   <td class="text-center" style="font-size: xx-small">
                     ยอดสุทธิ
@@ -131,9 +131,6 @@
                   </td>
                   <td class="text-center" style="font-size: xx-small">
                     {{ item.tax_id }}
-                  </td>
-                  <td class="text-center" style="font-size: xx-small">
-                    {{ item.type }}
                   </td>
                   <td class="text-center" style="font-size: xx-small">
                     {{ item.total }}

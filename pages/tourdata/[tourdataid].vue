@@ -236,10 +236,10 @@
         >
         <v-btn
           style="margin-right: 1rem"
-          @click="list_cash = true"
           variant="tonal"
-          color="light-blue-darken-4"
-          >จัดการใบเบิกค่าใช้จ่าย</v-btn
+          @click="hotel_comment_dialog = true"
+          color="green-darken-4"
+          >คอมเมนต์โรงแรม</v-btn
         >
         <v-btn
           style="margin-right: 1rem"
@@ -1090,6 +1090,68 @@
     >
   </a-modal>
 
+  <a-modal
+    v-model:visible="hotel_comment_dialog"
+    width="58rem"
+    title="รายการโรงแรม">
+    <template #footer>
+      <a-button key="back" @click="hotel_comment_dialog = false">ปิด</a-button>
+    </template>
+    <div class="relative overflow-x shadow-md sm:rounded-lg">
+      <table
+        class="w-full text-sm overflow-scroll table-auto text-left text-gray-500 dark:text-gray-400">
+        <thead
+          class="text-xs uppercase bg-green-800 dark:bg-gray-700"
+          style="color: white">
+          <tr>
+            <th scope="col" class="px-6 py-3">ชื่อ</th>
+            <th scope="col" class="px-6 py-3">คอมเมนต์</th>
+            <th scope="col" class="px-6 py-3">เพิ่มคอมเมนท์</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            v-for="(item, index) in hotels_ls"
+            :key="index">
+            <th
+              scope="row"
+              class="px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              {{ item.name }}
+            </th>
+            <td class="px-6">{{ item.comments }}</td>
+            <td class="px-6 py-2" style="width: 15rem">
+              <a-button
+                type="dashed"
+                style="margin-right: 0.5rem"
+                @click="openHotelCommentDialog(item.id)"
+                >คอมเมนท์</a-button
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </a-modal>
+
+  <a-modal v-model:visible="hotel_select_dialog" title="เพิ่มคอมเม้นต์">
+    <template #footer>
+      <a-button key="back" @click="hotel_select_dialog = false">ปิด</a-button>
+    </template>
+    <a-row justify="space-between"
+      ><a-col
+        ><a-input
+          style="width: 25rem"
+          v-model:value="hotel_comment"
+          placeholder="ข้อความ" /></a-col
+      ><a-col>
+        <a-button type="primary" @click="handleUpdateCommentsHotel"
+          >บันทึก</a-button
+        ></a-col
+      ></a-row
+    >
+  </a-modal>
+
   <v-layout>
     <v-navigation-drawer
       v-model="tools"
@@ -1523,6 +1585,23 @@ export default {
           this.$message.success("อัพเดทความคิดเห็นเรียบร้อย");
         });
     },
+    openHotelCommentDialog(id) {
+      this.hotel_selected_id = id;
+      this.hotel_select_dialog = true;
+    },
+    handleUpdateCommentsHotel() {
+      api
+        .patch(
+          `/hotel_add_comment/${this.hotel_selected_id}?comment=${this.hotel_comment}`
+        )
+        .then(async () => {
+          this.hotel_select_dialog = false;
+          this.hotels_ls = await read_all_data(
+            "hotels?tour_id=" + this.tour_id
+          );
+          this.$message.success("อัพเดทความคิดเห็นเรียบร้อย");
+        });
+    },
   },
   data() {
     return {
@@ -1608,6 +1687,10 @@ export default {
       tools: false,
       tour_comment_dialog: false,
       tour_comment: "",
+      hotel_comment_dialog: false,
+      hotel_comment: "",
+      hotel_select_dialog: false,
+      hotel_selected_id: "",
     };
   },
 };
