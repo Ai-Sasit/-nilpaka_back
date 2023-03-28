@@ -290,6 +290,8 @@ export default defineComponent({
       this.last_total += this.last_total * 0.01;
     } else if (this.ob.receipt_tax == "4%") {
       this.last_total += this.last_total * 0.04;
+    } else if (this.ob.receipt_tax == "7%") {
+      this.last_total += this.last_total * 0.07;
     }
     const q = await read_all_data(
       `quotations?tour_id=${obj.tax_invoice[0].tour_id}`

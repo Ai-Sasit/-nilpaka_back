@@ -54,7 +54,7 @@
             style="margin-bottom: 0; align-items: center"
             class="flex flex-col font-medium lg:flex-row lg:space-x-8 lg:mt-0">
             <li>
-              <v-btn variant="flat" @click="$router.push('/')"
+              <v-btn variant="flat" @click="$router.push('/tour_ls')"
                 >รายการทัวร์</v-btn
               >
             </li>
@@ -91,7 +91,7 @@
           prepend-icon="mdi-list-box-outline"
           title="รายการทัวร์"
           value="1"
-          href="/"></v-list-item>
+          href="/tour_ls"></v-list-item>
         <v-list-item
           prepend-icon="mdi-list-box-outline"
           title="สร้างทัวร์"
