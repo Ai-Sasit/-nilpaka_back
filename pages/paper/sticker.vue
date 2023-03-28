@@ -1,40 +1,37 @@
 <template>
   <div
-    style="display: flex; background-color: rgb(225, 225, 241); z-index: -111"
-  >
+    style="display: flex; background-color: rgb(225, 225, 241); z-index: -111">
     <div class="page">
       <v-container>
         <v-row style="padding-right: 120px">
-          <v-col style="padding: 0">
+          <v-col
+            style="padding: 0"
+            v-for="(item, index) in member_ls"
+            :key="index">
             <table
-              class="border text-center text-sm font-light dark:border-neutral-500"
-            >
+              class="border text-center text-sm font-light dark:border-neutral-500">
               <tr class="border-b dark:border-neutral-500">
                 <td
                   colspan="3"
-                  class="whitespace-nowrap border-r dark:border-neutral-500 text-lg"
-                >
-                  <div>นายธนาธิป อภิรัตน์มนตรี</div>
+                  class="whitespace-nowrap border-r dark:border-neutral-500 text-lg">
+                  <div>{{ item.thai_name }}</div>
                   <div style="font-size: 12px" class="text-blue-800">
-                    MR.THANATHIP APHIRATMONTRI
+                    {{ item.eng_name }}
                   </div>
                 </td>
               </tr>
               <tr
-                class="border-b border-black-200 bg-yellow-200 text-neutral-800"
-              >
+                class="border-b border-black-200 bg-yellow-200 text-neutral-800">
                 <td
                   colspan="3"
-                  class="whitespace-nowrap py-1 dark:border-neutral-500"
-                >
-                  เวียดนาม
+                  class="whitespace-nowrap py-1 dark:border-neutral-500">
+                  {{ name }}
                 </td>
               </tr>
               <tr class="border-b dark:border-neutral-500">
                 <td
                   colspan="1"
-                  class="whitespace-nowrap border-r px-2 py-1 dark:border-neutral-500 text-pink-400 font-weight-bold"
-                >
+                  class="whitespace-nowrap border-r px-2 py-1 dark:border-neutral-500 text-pink-400 font-weight-bold">
                   <div>NILPAKA TOUR</div>
 
                   <div style="font-size: 12px">
@@ -43,9 +40,8 @@
                 </td>
                 <td
                   class="whitespace-nowrap py-3 text-red text-xl"
-                  style="width: 80px"
-                >
-                  11
+                  style="width: 80px">
+                  {{ index + 1 }}
                 </td>
               </tr>
             </table>
@@ -59,7 +55,7 @@
     style="margin-top: -2rem; background-color: rgb(225, 225, 241)"
     class="hide-btn"
     ><v-col style="text-align: center"
-      ><v-btn color="light-blue-accent-4"
+      ><v-btn color="light-blue-accent-4" @click="print"
         >สั่งพิมพ์ หรือ บันทึกเป็น PDF</v-btn
       ></v-col
     ></v-row
@@ -73,6 +69,17 @@ import { read_all_data, ArabicNumberToText } from "~~/services/pyapi";
 export default defineComponent({
   setup() {
     dayjs.extend(buddhistEra);
+  },
+  data() {
+    return {
+      member_ls: [],
+      name: "",
+    };
+  },
+  async mounted() {
+    const tour_id = this.$route.query.tid;
+    this.name = String(this.$route.query.name);
+    this.member_ls = await read_all_data("members?tour_id=" + tour_id);
   },
   methods: {
     print() {
@@ -127,6 +134,7 @@ export default defineComponent({
     box-shadow: initial;
     background: initial;
     page-break-after: always;
+    print-color-adjust: exact;
   }
 }
 </style>

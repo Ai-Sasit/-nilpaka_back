@@ -31,12 +31,30 @@
             icon
             @click="tour_comment_dialog = true"
             style="position: absolute; right: 0.2rem; top: 8rem; z-index: 999"
-            color="yellow-accent-3"
+            color="deep-purple-accent-4"
             v-bind="props">
             <v-icon> mdi-comment-text </v-icon>
           </v-btn>
         </template>
         <span>อัพเดท คอมเมนต์</span>
+      </v-tooltip>
+      <v-tooltip location="left">
+        <template v-slot:activator="{ props }">
+          <v-btn
+            icon
+            :href="`/paper/sticker?tid=${tour_data.id}&name=${tour_data.program_name}`"
+            style="
+              position: absolute;
+              right: 0.2rem;
+              top: 11.5rem;
+              z-index: 999;
+            "
+            color="purple-accent-4"
+            v-bind="props">
+            <v-icon> mdi-sticker-text </v-icon>
+          </v-btn>
+        </template>
+        <span>พิมพ์รายชื่อ Tag</span>
       </v-tooltip>
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table
@@ -779,7 +797,7 @@
         </thead>
         <tbody v-for="(item, index) in est_de_ls">
           <tr
-            class="bg-gray-100 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+            class="bg-gray-100 border-b dark:bg-gray-800 dark:border-gray-700"
             :key="index">
             <th class="px-6 py-4 w-40">
               หัวข้ออ้างอิง<br />ไม่แสดงในใบเคลียร์
