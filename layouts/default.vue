@@ -16,7 +16,7 @@
           >
         </NuxtLink>
         <div class="flex items-center lg:order-2">
-          <v-btn variant="flat" icon="mdi-logout"></v-btn>
+          <v-btn variant="flat" icon="mdi-logout" href="/"></v-btn>
           <button
             @click="drawer = true"
             type="button"
