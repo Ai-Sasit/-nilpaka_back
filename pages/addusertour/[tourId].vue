@@ -201,19 +201,17 @@
               v-model="address"
               class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
           </v-col>
-          <v-col cols="2">
-            <div class="flex items-center justify-center mt-8">
-              <input
-                id="default-checkbox"
-                type="checkbox"
-                v-model="vip_user"
-                class="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-              <label
-                for="default-checkbox"
-                class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                >ลูกค้าพิเศษ {{ vip_user }}</label
-              >
-            </div>
+          <v-col cols="3">
+            <label
+              for="base-input"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >หมายเหตุ</label
+            >
+            <input
+              type="text"
+              id="small-input"
+              v-model="vip_user"
+              class="block w-full p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-xs focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
           </v-col>
           <v-col cols="2">
             <br />
@@ -255,7 +253,6 @@
                   <th scope="col" class="px-6 py-3">เพศ</th>
                   <th scope="col" class="px-6 py-3">ประเภทเตียง</th>
                   <th scope="col" class="px-6 py-3">ตรวจลงตราเลขที</th>
-                  <th scope="col" class="px-6 py-3">ประเภทลูกค้า</th>
                 </tr>
               </thead>
               <tbody>
@@ -303,12 +300,6 @@
                   <td class="px-6 py-4">
                     {{ item.stamp_no }}
                   </td>
-                  <td class="px-6 py-4">
-                    <el-tag v-if="item.vip_u === true" type="success"
-                      >ลูกค้าพิเศษ</el-tag
-                    >
-                    <div v-else>ลูกค้าทั่วไป</div>
-                  </td>
                 </tr>
               </tbody>
             </table>
@@ -347,7 +338,7 @@ export default defineComponent({
       passport: "",
       stamp_number: "",
       address: "",
-      vip_user: false,
+      vip_user: "",
       dob: "",
       out: "",
       in: "",

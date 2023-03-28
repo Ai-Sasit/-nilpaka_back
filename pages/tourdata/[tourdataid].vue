@@ -125,13 +125,10 @@
               <th scope="col" class="px-6 py-3">หมายเลขบัตรประชาชน</th>
               <th scope="col" class="px-6 py-3">ชื่อ-นามสกุลภาษาอังกฤษ</th>
               <th scope="col" class="px-6 py-3">หมายเลขพาสปอร์ต</th>
-              <th scope="col" class="px-6 py-3">วันที่ออก</th>
-              <th scope="col" class="px-6 py-3">วันที่หมด</th>
-              <th scope="col" class="px-6 py-3">ว/ด/ป เกิด</th>
               <th scope="col" class="px-6 py-3">สัญชาต</th>
               <th scope="col" class="px-6 py-3">เพศ</th>
               <th scope="col" class="px-6 py-3">ประเภทเตียง</th>
-              <th scope="col" class="px-6 py-3">ตรวจลงตราเลขที</th>
+              <th scope="col" class="px-6 py-3">เพิ่มเติม</th>
             </tr>
           </thead>
           <tbody v-if="!members_ls.length">
@@ -160,15 +157,6 @@
                 {{ item.passport_no }}
               </td>
               <td class="px-6 py-4" style="font-size: 13px">
-                {{ item.passport_issue }}
-              </td>
-              <td class="px-6 py-4" style="font-size: 13px">
-                {{ item.passport_exp }}
-              </td>
-              <td class="px-6 py-4" style="font-size: 13px">
-                {{ item.date_of_birth }}
-              </td>
-              <td class="px-6 py-4" style="font-size: 13px">
                 {{ item.nationality }}
               </td>
               <td class="px-6 py-4" style="font-size: 13px">
@@ -178,7 +166,9 @@
                 {{ item.bed_type }}
               </td>
               <td class="px-6 py-4" style="font-size: 13px">
-                {{ item.stamp_no }}
+                <a @click.stop.prevent="openMemberDetailDialog(item)"
+                  >รายละเอียดเพิ่มเติม</a
+                >
               </td>
             </tr>
           </tbody>
@@ -186,6 +176,39 @@
       </div>
     </div>
   </section>
+
+  <a-modal
+    v-model:visible="member_detail_dialog"
+    :title="`รายละเอียดลูกทัวร์ | ${selected_member.thai_name}`">
+    <template #footer>
+      <a-row justify="space-between">
+        <a-col>
+          <a-input-group compact>
+            <a-input
+              v-model:value="member_comment"
+              placeholder="ข้อความ"
+              style="width: 30vmin; text-align: left" />
+            <a-button type="primary" @click="handleUpdateMemberComment"
+              >คอมเมนต์</a-button
+            >
+          </a-input-group>
+        </a-col>
+        <a-col>
+          <a-button
+            key="submit"
+            type="danger"
+            @click="member_detail_dialog = false"
+            >ปิด</a-button
+          ></a-col
+        >
+      </a-row>
+    </template>
+    <p>วันที่ออกพาสปอร์ต: {{ selected_member.passport_issue }}</p>
+    <p>วันหมดอายุพาสปอร์ต: {{ selected_member.passport_exp }}</p>
+    <p>วันเดือนปีเกิด: {{ selected_member.date_of_birth }}</p>
+    <p>ตรวจลงตราเลขที: {{ selected_member.stamp_no }}</p>
+    <p>หมายเหตุ: {{ selected_member.vip_u }}</p>
+  </a-modal>
 
   <v-row
     justify="space-between"
@@ -562,11 +585,34 @@
     width="90rem"
     title="ออกใบเคียร์ประมาณการเงินสดย่อย">
     <template #footer>
-      <a-button key="back" @click="create_clear_dialog = false"
-        >ยกเลิก</a-button
-      >
-      <a-button key="submit" type="primary" @click="onCreateClear"
-        >สร้าง</a-button
+      <a-row justify="space-between">
+        <a-col>
+          <a-label style="margin-right: 1rem">ยอดเงินประมาณการ</a-label
+          ><a-tag color="cyan"
+            >{{
+              moni_clear_total_predict.toLocaleString({
+                minimumFractionDigits: 2,
+              })
+            }}
+            .-</a-tag
+          ><a-divider type="vertical"></a-divider>
+          <a-label style="margin-right: 1rem">ยอดสุทธิ</a-label
+          ><a-tag color="success">{{ moni_clear_total }}</a-tag
+          ><a-divider type="vertical"></a-divider>
+          <a-label style="margin-right: 1rem">ยอดเงินเบิกเพิ่ม</a-label
+          ><a-tag color="orange">{{ moni_clear_total_give_me }}</a-tag
+          ><a-divider type="vertical"></a-divider>
+          <a-label style="margin-right: 1rem">ยอดเงินส่งคืน</a-label
+          ><a-tag color="purple">{{ moni_clear_total_return }}</a-tag>
+        </a-col>
+        <a-col>
+          <a-button key="back" @click="create_clear_dialog = false"
+            >ยกเลิก</a-button
+          >
+          <a-button key="submit" type="primary" @click="onCreateClear"
+            >สร้าง</a-button
+          ></a-col
+        ></a-row
       >
     </template>
     <v-row>
@@ -735,7 +781,9 @@
           <tr
             class="bg-gray-100 border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
             :key="index">
-            <th class="px-6 py-4">-</th>
+            <th class="px-6 py-4 w-40">
+              หัวข้ออ้างอิง<br />ไม่แสดงในใบเคลียร์
+            </th>
             <td class="px-6 py-4">{{ item.desc }}</td>
             <td class="px-6 py-4">-</td>
             <td class="px-6 py-4">-</td>
@@ -1204,7 +1252,12 @@ export default {
       this.clear.pefer_no_example_pay = item;
       read_all_data(`estimate_lists?no=${item}`).then((res) => {
         this.est_de_ls = res;
+        this.moni_clear_total_predict = res.reduce((a, b) => a + b.total, 0);
       });
+      this.moni_clear_total_predict = 0;
+      this.moni_clear_total = 0;
+      this.moni_clear_total_give_me = 0;
+      this.moni_clear_total_return = 0;
       this.create_clear_dialog = true;
     },
     onOpenBillDialog(item) {
@@ -1371,6 +1424,7 @@ export default {
         });
       }
     },
+
     onCreateClear() {
       this.clear.date = dayjs().format("DD/MM/BBBB");
       this.clear.no = genRanDec(13);
@@ -1517,7 +1571,31 @@ export default {
         ? null
         : (this.est_de_ls[objIndex].clearance = []);
       this.est_de_ls[objIndex].clearance.push(payload);
-      console.log(this.est_de_ls);
+
+      const sum = this.est_de_ls.map((item) => {
+        if (item.clearance) {
+          return item.clearance.reduce((partialSum, a) => {
+            return partialSum + a.clear_total;
+          }, 0);
+        } else {
+          return 0;
+        }
+      });
+
+      this.moni_clear_total = sum.reduce((partialSum, a) => partialSum + a, 0);
+
+      if (this.moni_clear_total_predict - this.moni_clear_total <= 0) {
+        this.moni_clear_total_return = 0;
+      } else {
+        this.moni_clear_total_return =
+          this.moni_clear_total_predict - this.moni_clear_total;
+      }
+      if (this.moni_clear_total - this.moni_clear_total_predict <= 0) {
+        this.moni_clear_total_give_me = 0;
+      } else {
+        this.moni_clear_total_give_me =
+          this.moni_clear_total - this.moni_clear_total_predict;
+      }
     },
     handleUpdateComments() {
       api
@@ -1543,6 +1621,24 @@ export default {
           this.hotel_select_dialog = false;
           this.hotels_ls = await read_all_data(
             "hotels?tour_id=" + this.tour_id
+          );
+          this.$message.success("อัพเดทความคิดเห็นเรียบร้อย");
+        });
+    },
+    openMemberDetailDialog(item) {
+      this.selected_member = item;
+      this.member_detail_dialog = true;
+    },
+    handleUpdateMemberComment() {
+      api
+        .patch(
+          `/member_add_vip_u/${this.selected_member.id}?vip_u=${this.member_comment}`
+        )
+        .then(async () => {
+          this.member_detail_dialog = false;
+          this.member_comment = "";
+          this.members_ls = await read_all_data(
+            "members?tour_id=" + this.tour_id
           );
           this.$message.success("อัพเดทความคิดเห็นเรียบร้อย");
         });
@@ -1637,6 +1733,13 @@ export default {
       hotel_comment: "",
       hotel_select_dialog: false,
       hotel_selected_id: "",
+      moni_clear_total_predict: 0,
+      moni_clear_total: 0,
+      moni_clear_total_return: 0,
+      moni_clear_total_give_me: 0,
+      selected_member: "",
+      member_detail_dialog: false,
+      member_comment: "",
     };
   },
 };
